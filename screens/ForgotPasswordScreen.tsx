@@ -1,16 +1,27 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Alert } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../navigation/AppNavigator';
+import { sendPasswordResetEmail } from 'firebase/auth';
+import { auth } from '../firebaseConfig'; // Asegúrate que este path esté correcto
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ForgotPassword'>;
 
 export default function ForgotPasswordScreen({ navigation }: Props) {
   const [email, setEmail] = useState('');
 
-  const handleSendResetLink = () => {
-    // Aquí iría la lógica para enviar el enlace de recuperación al correo
-    console.log('Enviando enlace a:', email);
+  const handleSendResetLink = async () => {
+    if (!email) {
+      Alert.alert('Error', 'Por favor ingresa tu correo electrónico');
+      return;
+    }
+
+    try {
+      await sendPasswordResetEmail(auth, email);
+      Alert.alert('Éxito', 'Se ha enviado un enlace para restablecer tu contraseña a tu correo.');
+    } catch (error: any) {
+      Alert.alert('Error', error.message);
+    }
   };
 
   return (
