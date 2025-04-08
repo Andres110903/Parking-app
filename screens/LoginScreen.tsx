@@ -10,6 +10,7 @@ export default function LoginScreen({ navigation }: Props) {
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>Login Screen</Text>
       <Button title="Iniciar sesión" onPress={() => navigation.navigate('Home')} />
+      <Button title="Registrar" onPress={() => navigation.navigate('Register')} />
     </View>
   );
 }
