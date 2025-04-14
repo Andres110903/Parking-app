@@ -6,6 +6,7 @@ import HomeScreen from '../screens/HomeScreen';
 import ParkingScreen from '../screens/ParkingScreen';
 import ForgotPasswordScreen from '../screens/ForgotPasswordScreen';
 import ChangePasswordScreen from '../screens/ChangePasswordScreen';
+import DrawerNavigator from './DrawerNavigator';
 
 export type RootStackParamList = {
   Login: undefined;
@@ -23,7 +24,7 @@ export default function AppNavigator() {
     <Stack.Navigator initialRouteName="Login">
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Register" component={ResgiterScreen} />
-      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="Home" component={DrawerNavigator} options={{ headerShown: false }}/>
       <Stack.Screen name="Parking" component={ParkingScreen} />
       <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
       <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} />

@@ -27,7 +27,6 @@ import { NavigationContainer } from '@react-navigation/native';
 // 👇 Asegúrate de añadir la extensión si sigues usando moduleResolution: node16
 import AppNavigator from './navigation/AppNavigator';
 
-
 export default function App() {
   return (
     <NavigationContainer>
