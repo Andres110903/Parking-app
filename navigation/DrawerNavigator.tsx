@@ -114,6 +114,7 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: '#E0F7FA',
     alignItems: 'center',
+    marginBottom: 16
   },
   adminText: {
     color: '#00796B',
