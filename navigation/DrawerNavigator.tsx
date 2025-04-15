@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { getAuth } from 'firebase/auth';
 import {View, Text, Image, StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import HomeScreen from '../screens/HomeScreen';
 import ParkingScreen from '../screens/ParkingScreen';
+import ProfileScreen from '../screens/ProfileScreen';
+import { DrawerLayout } from 'react-native-gesture-handler';
+
 
 export type DrawerParamList = {
   Home: undefined;
   Parking: undefined;
+  Profile: undefined;
 };
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
@@ -16,6 +21,10 @@ const homeIcon = require('../assets/menu.png');
 const carIcon = require('../assets/menu.png');
 
 function CustomDrawerContent(props: any) {
+  const auth = getAuth();
+  const user = auth.currentUser;
+  const [isProfileExpanded, setIsProfileExpanded] = useState(false);
+
   const handleLogout = () => {
     // Aquí pones tu lógica de cierre de sesión
     Alert.alert("Cerrar sesión", "¿Estás seguro que quieres salir?", [
@@ -33,6 +42,7 @@ function CustomDrawerContent(props: any) {
 
   return (
     <DrawerContentScrollView {...props} contentContainerStyle={{ flex: 1 }}>
+
       {/* Elementos del drawer */}
       <View style={{ flex: 1 }}>
         <DrawerItemList {...props} />
@@ -59,8 +69,9 @@ export default function DrawerNavigator() {
         drawerLabelStyle: { fontSize: 16 },
       }}
     >
-      <Drawer.Screen name="Home" component={HomeScreen} />
-      <Drawer.Screen name="Parking" component={ParkingScreen} />
+      <Drawer.Screen name="Home" component={HomeScreen} options={{ drawerLabel: 'Principal' }} />
+      <Drawer.Screen name="Parking" component={ParkingScreen} options={{ drawerLabel: 'Parqueadero'}} />
+      <Drawer.Screen name="Profile" component={ProfileScreen} options={{ drawerLabel: 'Perfil'}} />
     </Drawer.Navigator>
   );
 }

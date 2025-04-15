@@ -27,7 +27,7 @@ export default function HomeScreen({ navigation }: Props) {
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc egestas ex vel ligula
           maximus rhoncus. Nullam vitae pellentesque felis.
         </Text>
-        <Image source={require('../assets/logo.png')} style={styles.image} />
+        <Image source={require('../assets/cosmo.png')} style={styles.image} />
       </View>
 
       {/* Botones */}
