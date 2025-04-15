@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
+import { useEffect } from 'react';
+import { doc, getDoc } from 'firebase/firestore';
 import {View, Text, Image, StyleSheet, TouchableOpacity, Alert} from 'react-native';
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -25,6 +28,30 @@ function CustomDrawerContent(props: any) {
   const user = auth.currentUser;
   const [isProfileExpanded, setIsProfileExpanded] = useState(false);
 
+  const [role, setRole] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchUserRole = async () => {
+      if (user) {
+        console.log("Usuario autenticado:", user); // <--- revisa esto
+        const db = getFirestore();
+        const userRef = doc(db, 'users', user.uid);
+        const docSnap = await getDoc(userRef);
+  
+        if (docSnap.exists()) {
+          const userData = docSnap.data();
+          setRole(userData.role || null);
+        }
+      } else {
+        console.log("No hay usuario autenticado.");
+      }
+    };
+  
+    fetchUserRole();
+  }, []);
+  
+  
+
   const handleLogout = () => {
     // Aquí pones tu lógica de cierre de sesión
     Alert.alert("Cerrar sesión", "¿Estás seguro que quieres salir?", [
@@ -42,6 +69,12 @@ function CustomDrawerContent(props: any) {
 
   return (
     <DrawerContentScrollView {...props} contentContainerStyle={{ flex: 1 }}>
+
+      {role === 'admin' && (
+        <View style={styles.adminContainer}>
+          <Text style={styles.adminText}>Usuario Admin</Text>
+        </View>
+      )}
 
       {/* Elementos del drawer */}
       <View style={{ flex: 1 }}>
@@ -77,6 +110,17 @@ export default function DrawerNavigator() {
 }
 
 const styles = StyleSheet.create({
+  adminContainer: {
+    padding: 16,
+    backgroundColor: '#E0F7FA',
+    alignItems: 'center',
+  },
+  adminText: {
+    color: '#00796B',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  
   icon: {
     width: 24,
     height: 24,
